@@ -10,25 +10,23 @@
 int main(void)
 {
 	int target;
-	int len;
 	int i;
 	int val;
-	int remaining;
 
 	srand(time(NULL));
 	target = 0xad4;
-	len = 10 + rand() % 10;
 
-	for (i = 0; i < len - 1; i++)
+	while (target > 0)
 	{
-		remaining = target - (len - 1 - i) * 33;
-		if (remaining > 126)
+		if (target >= 126)
 			val = 33 + rand() % 94;
+		else if (target >= 33)
+			val = target;
 		else
-			val = remaining;
+			val = target;
 		putchar(val);
 		target -= val;
+		i++;
 	}
-	putchar(target);
 	return (0);
 }
