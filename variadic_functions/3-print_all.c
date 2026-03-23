@@ -3,33 +3,33 @@
 
 /**
  * print_one - prints one argument based on type
- * @args: the va_list
+ * @args: pointer to the va_list
  * @c: the type character
  *
  * Return: 1 if printed, 0 otherwise
  */
-static int print_one(va_list args, char c)
+static int print_one(va_list *args, char c)
 {
 	char *str;
 
 	if (c == 'c')
 	{
-		printf("%c", va_arg(args, int));
+		printf("%c", va_arg(*args, int));
 		return (1);
 	}
 	if (c == 'i')
 	{
-		printf("%d", va_arg(args, int));
+		printf("%d", va_arg(*args, int));
 		return (1);
 	}
 	if (c == 'f')
 	{
-		printf("%f", (float)va_arg(args, double));
+		printf("%f", (float)va_arg(*args, double));
 		return (1);
 	}
 	if (c == 's')
 	{
-		str = va_arg(args, char *);
+		str = va_arg(*args, char *);
 		printf("%s", str ? str : "(nil)");
 		return (1);
 	}
@@ -56,7 +56,7 @@ void print_all(const char * const format, ...)
 		if (sep && (format[i] == 'c' || format[i] == 'i' ||
 			format[i] == 'f' || format[i] == 's'))
 			printf(", ");
-		sep = print_one(args, format[i]);
+		sep = print_one(&args, format[i]);
 		i++;
 	}
 	va_end(args);
