@@ -2,6 +2,41 @@
 #include "variadic_functions.h"
 
 /**
+ * print_one - prints one argument based on type
+ * @args: the va_list
+ * @c: the type character
+ *
+ * Return: 1 if printed, 0 otherwise
+ */
+static int print_one(va_list args, char c)
+{
+	char *str;
+
+	if (c == 'c')
+	{
+		printf("%c", va_arg(args, int));
+		return (1);
+	}
+	if (c == 'i')
+	{
+		printf("%d", va_arg(args, int));
+		return (1);
+	}
+	if (c == 'f')
+	{
+		printf("%f", (float)va_arg(args, double));
+		return (1);
+	}
+	if (c == 's')
+	{
+		str = va_arg(args, char *);
+		printf("%s", str ? str : "(nil)");
+		return (1);
+	}
+	return (0);
+}
+
+/**
  * print_all - prints anything based on a format string
  * @format: list of types (c, i, f, s)
  *
@@ -12,50 +47,16 @@ void print_all(const char * const format, ...)
 	va_list args;
 	unsigned int i;
 	int sep;
-	char c;
-	int integer;
-	float f;
-	char *str;
 
 	va_start(args, format);
 	i = 0;
 	sep = 0;
 	while (format != NULL && format[i])
 	{
-		c = format[i];
-		str = NULL;
-		if (c == 'c')
-		{
-			integer = va_arg(args, int);
-			if (sep)
-				printf(", ");
-			printf("%c", integer);
-			sep = 1;
-		}
-		if (c == 'i')
-		{
-			integer = va_arg(args, int);
-			if (sep)
-				printf(", ");
-			printf("%d", integer);
-			sep = 1;
-		}
-		if (c == 'f')
-		{
-			f = (float)va_arg(args, double);
-			if (sep)
-				printf(", ");
-			printf("%f", f);
-			sep = 1;
-		}
-		if (c == 's')
-		{
-			str = va_arg(args, char *);
-			if (sep)
-				printf(", ");
-			printf("%s", str ? str : "(nil)");
-			sep = 1;
-		}
+		if (sep && (format[i] == 'c' || format[i] == 'i' ||
+			format[i] == 'f' || format[i] == 's'))
+			printf(", ");
+		sep = print_one(args, format[i]);
 		i++;
 	}
 	va_end(args);
