@@ -196,6 +196,21 @@ STACK
 
 ---
 
+## Ownership Summary
+
+| Object | Allocated by | Owned by | Must be freed by |
+|---|---|---|---|
+| `heap_val` block | `malloc` in `main` | `main` | `main` — done ✓ |
+| `copy` block | `malloc` in `clone_and_modify` | transferred to `main` via return value | `main` — done ✓ |
+| `original[]` | stack (automatic) | `main` stack frame | automatic at function return |
+| `src` parameter | stack (automatic) | `clone_and_modify` frame | automatic at function return |
+
+**Rule**: whoever holds the last pointer to a heap block is responsible
+for calling `free`. Returning a heap pointer transfers ownership to the
+caller.
+
+---
+
 ## AI Correction Log
 
 ### Error found in AI-generated explanation
