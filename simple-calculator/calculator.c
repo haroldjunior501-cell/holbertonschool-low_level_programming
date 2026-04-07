@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-// Fonction pour afficher le menu
+/* Fonction pour afficher le menu */
 void afficherMenu() {
     printf("\n===== CALCULATRICE =====\n");
     printf("1. Addition\n");
@@ -29,23 +29,23 @@ int main() {
             switch (choix) {
                 case 1:
                     resultat = a + b;
-                    printf("Résultat : %.2lf\n", resultat);
+                    printf("Résultat : %.2f\n", resultat);
                     break;
 
                 case 2:
                     resultat = a - b;
-                    printf("Résultat : %.2lf\n", resultat);
+                    printf("Résultat : %.2f\n", resultat);
                     break;
 
                 case 3:
                     resultat = a * b;
-                    printf("Résultat : %.2lf\n", resultat);
+                    printf("Résultat : %.2f\n", resultat);
                     break;
 
                 case 4:
                     if (b != 0) {
                         resultat = a / b;
-                        printf("Résat : %.2lf\n", resultat);
+                        printf("Résat : %.2f\n", resultat);
                     } else {
                         printf("Erreur : division par zéro !\n");
                     }
