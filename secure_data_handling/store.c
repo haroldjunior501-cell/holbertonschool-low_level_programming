@@ -160,14 +160,10 @@ void store_clear(store_t *store)
 }
 
 /**
- * store_destroy - frees all sessions and the store itself
+ * store_destroy - clears all sessions in the store
  * @store: the session store to destroy
  */
 void store_destroy(store_t *store)
 {
-	if (store == NULL)
-		return;
-
 	store_clear(store);
-	free(store);
 }
