@@ -58,11 +58,11 @@ int session_update(session_t *s, const unsigned char *data, size_t data_len)
 	unsigned char *new_data;
 
 	if (s == NULL || data == NULL)
-		return (-1);
+		return (0);
 
 	new_data = malloc(data_len);
 	if (new_data == NULL)
-		return (-1);
+		return (0);
 
 	memcpy(new_data, data, data_len);
 	free(s->data);
