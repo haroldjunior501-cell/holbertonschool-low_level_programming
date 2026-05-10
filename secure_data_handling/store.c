@@ -4,6 +4,30 @@
 #include "store.h"
 
 /**
+ * store_init - initialises an already-allocated store struct
+ * @store: pointer to the store to initialise
+ */
+void store_init(store_t *store)
+{
+	if (store == NULL)
+		return;
+
+	store->head = NULL;
+}
+
+/**
+ * store_add - inserts a session into the store (alias for store_insert)
+ * @store: the session store
+ * @session: the session to add
+ *
+ * Return: 0 on success, -1 on failure
+ */
+int store_add(store_t *store, session_t *session)
+{
+	return (store_insert(store, session));
+}
+
+/**
  * store_create - allocates an empty session store
  *
  * Return: pointer to new store, or NULL on failure

@@ -87,6 +87,19 @@ void session_clear(session_t *s)
 }
 
 /**
+ * session_set_data - replaces session data (alias for session_update)
+ * @s: the session to update
+ * @data: new data payload
+ * @data_len: length of the new data
+ *
+ * Return: 0 on success, -1 on failure
+ */
+int session_set_data(session_t *s, const unsigned char *data, size_t data_len)
+{
+	return (session_update(s, data, data_len));
+}
+
+/**
  * session_destroy - fully frees a session and its fields
  * @s: the session to destroy
  */
