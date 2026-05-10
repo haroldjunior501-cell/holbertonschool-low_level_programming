@@ -64,7 +64,7 @@ int store_add(store_t *store, session_t *session)
 	node->next = store->head;
 	store->head = node;
 
-	return (0);
+	return (1);
 }
 
 /**
@@ -126,7 +126,7 @@ int store_delete(store_t *st, const char *id, session_t **out)
 			else
 				session_destroy(current->sess);
 			free(current);
-			return (0);
+			return (1);
 		}
 		prev = current;
 		current = current->next;

@@ -69,7 +69,7 @@ int session_update(session_t *s, const unsigned char *data, size_t data_len)
 	s->data = new_data;
 	s->data_len = data_len;
 
-	return (0);
+	return (1);
 }
 
 /**
