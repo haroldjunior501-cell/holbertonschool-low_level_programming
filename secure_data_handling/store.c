@@ -16,19 +16,7 @@ void store_init(store_t *store)
 }
 
 /**
- * store_add - inserts a session into the store (alias for store_insert)
- * @store: the session store
- * @session: the session to add
- *
- * Return: 0 on success, -1 on failure
- */
-int store_add(store_t *store, session_t *session)
-{
-	return (store_insert(store, session));
-}
-
-/**
- * store_create - allocates an empty session store
+ * store_create - allocates and initialises a new store
  *
  * Return: pointer to new store, or NULL on failure
  */
@@ -40,19 +28,19 @@ store_t *store_create(void)
 	if (store == NULL)
 		return (NULL);
 
-	store->head = NULL;
+	store_init(store);
 
 	return (store);
 }
 
 /**
- * store_insert - inserts a session into the store
+ * store_add - inserts a session into the store
  * @store: the session store
- * @session: the session to insert
+ * @session: the session to add
  *
  * Return: 0 on success, -1 if duplicate id or invalid args
  */
-int store_insert(store_t *store, session_t *session)
+int store_add(store_t *store, session_t *session)
 {
 	node_t *node;
 	node_t *current;
@@ -108,7 +96,7 @@ session_t *store_get(store_t *store, const char *id)
  * store_delete - removes a session by id, transferring ownership to caller
  * @st: the session store
  * @id: the session id to delete
- * @out: if non-NULL, receives the removed session; if NULL, session destroyed
+ * @out: receives the session if non-NULL, otherwise session is destroyed
  *
  * Return: 0 on success, -1 if not found or invalid args
  */
