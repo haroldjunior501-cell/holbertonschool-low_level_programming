@@ -1,4 +1,5 @@
-#include "secure_data_handling.h"
+#include "session.h"
+#include "store.h"
 
 /**
  * store_create - allocates an empty session store
