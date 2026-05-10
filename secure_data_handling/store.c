@@ -39,7 +39,7 @@ int store_insert(store_t *store, session_t *session)
 	current = store->head;
 	while (current != NULL)
 	{
-		if (strcmp(current->session->id, session->id) == 0)
+		if (strcmp(current->sess->id, session->id) == 0)
 			return (-1);
 		current = current->next;
 	}
@@ -48,7 +48,7 @@ int store_insert(store_t *store, session_t *session)
 	if (node == NULL)
 		return (-1);
 
-	node->session = session;
+	node->sess = session;
 	node->next = store->head;
 	store->head = node;
 
@@ -72,8 +72,8 @@ session_t *store_get(store_t *store, const char *id)
 	current = store->head;
 	while (current != NULL)
 	{
-		if (strcmp(current->session->id, id) == 0)
-			return (current->session);
+		if (strcmp(current->sess->id, id) == 0)
+			return (current->sess);
 		current = current->next;
 	}
 
@@ -103,16 +103,16 @@ int store_delete(store_t *st, const char *id, session_t **out)
 	prev = NULL;
 	while (current != NULL)
 	{
-		if (strcmp(current->session->id, id) == 0)
+		if (strcmp(current->sess->id, id) == 0)
 		{
 			if (prev == NULL)
 				st->head = current->next;
 			else
 				prev->next = current->next;
 			if (out != NULL)
-				*out = current->session;
+				*out = current->sess;
 			else
-				session_destroy(current->session);
+				session_destroy(current->sess);
 			free(current);
 			return (0);
 		}
@@ -139,7 +139,7 @@ void store_clear(store_t *store)
 	while (current != NULL)
 	{
 		next = current->next;
-		session_destroy(current->session);
+		session_destroy(current->sess);
 		free(current);
 		current = next;
 	}
