@@ -5,11 +5,14 @@
 /**
  * session_create - allocates and initialises a new session
  * @id: unique session identifier (duplicated)
- * @data: session payload (duplicated, may be empty string)
+ * @uid: user id associated with the session
+ * @data: session payload (duplicated)
+ * @data_len: length of the data payload
  *
  * Return: pointer to new session, or NULL on failure
  */
-session_t *session_create(const char *id, const char *data)
+session_t *session_create(const char *id, unsigned int uid,
+		const unsigned char *data, size_t data_len)
 {
 	session_t *s;
 
@@ -27,7 +30,7 @@ session_t *session_create(const char *id, const char *data)
 		return (NULL);
 	}
 
-	s->data = strdup(data);
+	s->data = malloc(data_len);
 	if (s->data == NULL)
 	{
 		free(s->id);
@@ -35,35 +38,42 @@ session_t *session_create(const char *id, const char *data)
 		return (NULL);
 	}
 
+	memcpy(s->data, data, data_len);
+	s->uid = uid;
+	s->data_len = data_len;
+
 	return (s);
 }
 
 /**
  * session_update - replaces the data payload of a session
  * @s: the session to update
- * @data: new data string (duplicated)
+ * @data: new data (duplicated)
+ * @data_len: length of the new data
  *
  * Return: 0 on success, -1 on failure
  */
-int session_update(session_t *s, const char *data)
+int session_update(session_t *s, const unsigned char *data, size_t data_len)
 {
-	char *new_data;
+	unsigned char *new_data;
 
 	if (s == NULL || data == NULL)
 		return (-1);
 
-	new_data = strdup(data);
+	new_data = malloc(data_len);
 	if (new_data == NULL)
 		return (-1);
 
+	memcpy(new_data, data, data_len);
 	free(s->data);
 	s->data = new_data;
+	s->data_len = data_len;
 
 	return (0);
 }
 
 /**
- * session_clear - frees the data payload and sets it to NULL
+ * session_clear - frees the data payload and zeroes related fields
  * @s: the session whose data should be cleared
  */
 void session_clear(session_t *s)
@@ -73,6 +83,7 @@ void session_clear(session_t *s)
 
 	free(s->data);
 	s->data = NULL;
+	s->data_len = 0;
 }
 
 /**
