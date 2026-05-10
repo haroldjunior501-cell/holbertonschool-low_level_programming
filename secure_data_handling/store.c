@@ -2,6 +2,17 @@
 #include "store.h"
 
 /**
+ * struct store_node_s - internal linked list node for the store
+ * @session: pointer to the stored session
+ * @next: pointer to the next node
+ */
+typedef struct store_node_s
+{
+	session_t *session;
+	struct store_node_s *next;
+} store_node_t;
+
+/**
  * store_create - allocates an empty session store
  *
  * Return: pointer to new store, or NULL on failure
